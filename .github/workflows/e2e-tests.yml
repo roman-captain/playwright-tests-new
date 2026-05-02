@@ -41,6 +41,8 @@ jobs:
           TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
           TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
           HEADLESS: true
+          QASE_MODE: testops
+          QASE_TESTOPS_API_TOKEN: ${{ secrets.QASE_TESTOPS_API_TOKEN }}
         run: |
           if [ -n "${{ github.event.inputs.test_grep }}" ]; then
             npx playwright test --grep "${{ github.event.inputs.test_grep }}"
