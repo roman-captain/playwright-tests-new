@@ -1,9 +1,15 @@
 import { test, expect } from '../fixtures/baseTest';
+import { qase } from 'playwright-qase-reporter';
 import { testData } from '../fixtures/testData';
 
 test.describe('Navigation on GitHub.com', () => {
 
   test('should sign up github.com @smoke', async ({ signupPage }) => {
+    qase.id(5);
+    qase.title('Sign up on GitHub');
+    qase.fields({ severity: 'critical', priority: 'high' });
+    qase.tags('ui', 'smoke');
+
     await signupPage.open('/');
 
     await signupPage.clickOnSignUpButton();
@@ -20,6 +26,11 @@ test.describe('Navigation on GitHub.com', () => {
   });
 
   test('should sign in github.com @smoke', async ({ loginPage }) => {
+    qase.id(6);
+    qase.title('Sign in on GitHub');
+    qase.fields({ severity: 'critical', priority: 'high' });
+    qase.tags('ui', 'smoke');
+
     await loginPage.open('/');
 
     await loginPage.clickOnSignInButton();
@@ -35,6 +46,11 @@ test.describe('Navigation on GitHub.com', () => {
   });
 
   test('should search in github.com @smoke', async ({ mainPage, page }) => {
+    qase.id(7);
+    qase.title('Search on GitHub');
+    qase.fields({ severity: 'major', priority: 'high' });
+    qase.tags('ui', 'smoke');
+
     await mainPage.clickOnFieldSearch();
     await mainPage.inputFieldRequest(testData.search.query);
 
@@ -43,6 +59,11 @@ test.describe('Navigation on GitHub.com', () => {
   });
 
   test('should subscribe in github.com @regression', async ({ mainPage }) => {
+    qase.id(8);
+    qase.title('Subscribe to developer newsletter');
+    qase.fields({ severity: 'normal', priority: 'medium' });
+    qase.tags('ui', 'regression');
+
     await mainPage.subscribeBtn.click();
 
     await expect(mainPage.subscribeHeadTitle).toHaveText('Get our developer newsletter');
@@ -55,6 +76,11 @@ test.describe('Navigation on GitHub.com', () => {
   });
 
   test('should check pricing on github.com @regression', async ({ mainPage, page }) => {
+    qase.id(9);
+    qase.title('Check pricing page');
+    qase.fields({ severity: 'normal', priority: 'medium' });
+    qase.tags('ui', 'regression');
+
     await mainPage.pricingBtn.click();
 
     await expect(mainPage.pricingHeader).toHaveText(testData.pricing.headerText);
@@ -65,6 +91,11 @@ test.describe('Navigation on GitHub.com', () => {
   });
 
   test('should find support on github.com @regression', async ({ page, signupPage }) => {
+    qase.id(10);
+    qase.title('Find support link from Terms page');
+    qase.fields({ severity: 'minor', priority: 'medium' });
+    qase.tags('ui', 'regression');
+
     await signupPage.clickOnSignUpButton();
 
     const [newPage] = await Promise.all([

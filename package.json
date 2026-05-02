@@ -16,6 +16,7 @@
     "allure-commandline": "^2.30.0",
     "allure-playwright": "^3.0.0",
     "dotenv": "^16.0.0",
+    "playwright-qase-reporter": "^2.5.0",
     "typescript": "^6.0.3"
   }
 }

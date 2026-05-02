@@ -14,6 +14,15 @@ export default defineConfig({
       outputFolder: 'allure-results',
       suiteTitle: true,
     }],
+    ['playwright-qase-reporter', {
+      mode: process.env.QASE_MODE || 'off',
+      testops: {
+        api: { token: process.env.QASE_TESTOPS_API_TOKEN },
+        project: 'GPT',
+        uploadAttachments: true,
+        run: { complete: true },
+      },
+    }],
   ],
 
   use: {
