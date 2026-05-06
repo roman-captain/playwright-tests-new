@@ -206,6 +206,11 @@ export class LangfuseTestHelper {
       })
     }
 
+    // LLM-judge: automatically evaluate failed tests
+    if (status === 'failed' && error) {
+      await this.evaluateWithLLM(testInfo.title, error)
+    }
+
     await this.currentTrace.update({
       metadata: {
         ...this.currentTrace.metadata,
@@ -216,6 +221,43 @@ export class LangfuseTestHelper {
     })
 
     await this.langfuse.flushAsync()
+  }
+
+  /**
+   * Call Gemini API to classify test failure as real bug or test issue
+   */
+  private async evaluateWithLLM(testName: string, error: Error): Promise<void> {
+    const apiKey = process.env.GEMINI_API_KEY
+    if (!apiKey) return
+
+    const prompt = `Test: "${testName}". Error: "${error.message.slice(0, 200)}". Reply ONLY: "score: 1" if real bug or "score: 0" if test issue.`
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+          }),
+        }
+      )
+
+      const data = await response.json() as any
+      const text: string = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
+
+      const scoreMatch = text.match(/score[:\s]+([01])/i)
+      const score = scoreMatch ? parseInt(scoreMatch[1]) : 0
+
+      this.currentTrace.score({
+        name: 'llm-bug-detector',
+        value: score,
+        comment: text.slice(0, 500),
+      })
+    } catch {
+      // Silent fail — LLM evaluation should never break the test run
+    }
   }
 
   /**

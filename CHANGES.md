@@ -1,5 +1,33 @@
 # Changelog
 
+## [feature/llm-judge] - 2026-05-06
+
+### Added
+
+- `helpers/langfuseTestHelper.ts` - added `evaluateWithLLM()` private method
+  - automatically called in `endTestTrace()` when test fails
+  - sends failed test name + error to Gemini API
+  - writes score `llm-bug-detector` (1 = real bug, 0 = test issue) to Langfuse trace
+  - uses model `gemini-2.5-flash-lite` (free tier: 15 RPM, 1000 req/day)
+  - silent fail — LLM error never breaks test run
+
+### Changed
+
+- `.github/workflows/e2e-tests.yml` - added `GEMINI_API_KEY` secret to CI environment
+
+### Setup required
+
+Add to `.env`:
+```
+GEMINI_API_KEY=AIza...
+```
+
+Add to GitHub Secrets: `GEMINI_API_KEY`
+
+Get free API key at: aistudio.google.com
+
+---
+
 ## [feature/langfuse-integration] - 2026-05-06
 
 ### Added
