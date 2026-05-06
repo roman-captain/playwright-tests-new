@@ -18,5 +18,8 @@
     "dotenv": "^16.0.0",
     "playwright-qase-reporter": "^2.5.0",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "langfuse": "^3.38.20"
   }
 }
