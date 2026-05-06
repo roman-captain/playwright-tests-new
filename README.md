@@ -12,6 +12,7 @@ Built to Wiki standard
 | Test Framework | Playwright              |
 | Test Runner    | Playwright Test         |
 | Reporting      | Allure Report           |
+| Observability  | Langfuse                |
 | CI/CD          | GitHub Actions          |
 
 ## Project Structure
@@ -27,6 +28,9 @@ Built to Wiki standard
 | `tests/pages/main.page.ts` | Search, subscribe, pricing, support |
 | `tests/specs/github.spec.ts` | UI E2E tests (`@smoke` / `@regression`) |
 | `tests/specs/api_petstore.spec.ts` | API tests (`@api` / `@smoke`) |
+| `tests/fixtures/langfuseBaseTest.ts` | Combined fixture: Langfuse tracing + page objects |
+| `helpers/langfuseTestHelper.ts` | Langfuse tracing class |
+| `helpers/langfuseFixture.ts` | Playwright fixture with auto tracing |
 | `helpers/` | Utility functions |
 | `playwright.config.ts` | Playwright configuration |
 | `.env` | Local env vars — not committed |
@@ -54,6 +58,9 @@ API_URL=https://petstore.swagger.io/v2
 TEST_USER_EMAIL=your_email@example.com
 TEST_USER_PASSWORD=your_password
 HEADLESS=false
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com
 ```
 
 ## Running Tests
@@ -86,3 +93,15 @@ Required GitHub Secrets:
 | `STAGING_BASE_URL` | Target environment URL |
 | `TEST_USER_EMAIL` | Test user credentials |
 | `TEST_USER_PASSWORD` | Test user credentials |
+| `LANGFUSE_PUBLIC_KEY` | Langfuse project public key |
+| `LANGFUSE_SECRET_KEY` | Langfuse project secret key |
+
+## Observability
+
+Tests are traced via Langfuse. Each test run creates a trace with spans and scores.
+
+Scores per test:
+- `test-success` - 1 if passed, 0 if failed
+- `test-performance` - score based on duration (1.0 under 5s, 0.8 for 5-10s, 0.6 for 10-30s, 0.4 for 30-60s, 0.2 over 60s)
+
+Dashboard: https://cloud.langfuse.com

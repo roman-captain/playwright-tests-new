@@ -1,4 +1,4 @@
-import { test, expect } from '../fixtures/baseTest';
+import { test, expect } from '../fixtures/langfuseBaseTest';
 import { qase } from 'playwright-qase-reporter';
 import { testData } from '../fixtures/testData';
 

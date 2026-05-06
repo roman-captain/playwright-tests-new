@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/langfuseBaseTest';
 import { qase } from 'playwright-qase-reporter';
 import { env } from '../../config/env';
 import { testData } from '../fixtures/testData';
