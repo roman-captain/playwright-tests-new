@@ -61,6 +61,7 @@ HEADLESS=false
 LANGFUSE_PUBLIC_KEY=pk-lf-...
 LANGFUSE_SECRET_KEY=sk-lf-...
 LANGFUSE_HOST=https://cloud.langfuse.com
+GEMINI_API_KEY=AIza...
 ```
 
 ## Running Tests
@@ -95,6 +96,7 @@ Required GitHub Secrets:
 | `TEST_USER_PASSWORD` | Test user credentials |
 | `LANGFUSE_PUBLIC_KEY` | Langfuse project public key |
 | `LANGFUSE_SECRET_KEY` | Langfuse project secret key |
+| `GEMINI_API_KEY` | Gemini API key for LLM-as-a-Judge |
 
 ## Observability
 
@@ -103,5 +105,6 @@ Tests are traced via Langfuse. Each test run creates a trace with spans and scor
 Scores per test:
 - `test-success` - 1 if passed, 0 if failed
 - `test-performance` - score based on duration (1.0 under 5s, 0.8 for 5-10s, 0.6 for 10-30s, 0.4 for 30-60s, 0.2 over 60s)
+- `llm-bug-detector` - AI score for failed tests: 1 = real product bug, 0 = test issue (powered by Gemini)
 
 Dashboard: https://cloud.langfuse.com
