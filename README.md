@@ -28,6 +28,7 @@ Built to Wiki standard
 | `tests/pages/main.page.ts` | Search, subscribe, pricing, support |
 | `tests/specs/github.spec.ts` | UI E2E tests (`@smoke` / `@regression`) |
 | `tests/specs/api_petstore.spec.ts` | API tests (`@api` / `@smoke`) |
+| `tests/specs/accessibility.spec.ts` | Accessibility tests WCAG 2.1 AA (`@a11y`) |
 | `tests/fixtures/langfuseBaseTest.ts` | Combined fixture: Langfuse tracing + page objects |
 | `helpers/langfuseTestHelper.ts` | Langfuse tracing class |
 | `helpers/langfuseFixture.ts` | Playwright fixture with auto tracing |
@@ -71,6 +72,7 @@ npm run test             # all tests
 npm run test:smoke       # @smoke only
 npm run test:regression  # @regression only
 npm run test:api         # @api only
+npm run test:a11y        # @a11y only
 ```
 
 ## Allure Report
