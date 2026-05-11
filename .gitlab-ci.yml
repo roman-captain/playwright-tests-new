@@ -4,9 +4,10 @@ stages:
 
 aqa-tests:
   stage: test
-  image: mcr.microsoft.com/playwright:latest
+  image: node:20
   script:
     - npm ci
+    - npx playwright install --with-deps chromium
     - npm run test
   artifacts:
     when: always
@@ -21,9 +22,10 @@ aqa-tests:
 
 generate-report:
   stage: report
-  image: frankescobar/allure-docker-service:latest
+  image: node:20
   script:
-    - allure generate allure-results --clean -o allure-report
+    - npm ci
+    - npx allure generate allure-results --clean -o allure-report
   artifacts:
     when: always
     paths:
