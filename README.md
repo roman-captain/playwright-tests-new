@@ -1,6 +1,6 @@
 # playwright-tests-new
 
-Automation test suite for [github.com](https://github.com) — AQA internship practice project.
+Playwright E2E test suite — AQA internship practice project.
 
 Built to Wiki standard
 
@@ -13,7 +13,7 @@ Built to Wiki standard
 | Test Runner    | Playwright Test         |
 | Reporting      | Allure Report           |
 | Observability  | Langfuse                |
-| CI/CD          | GitHub Actions          |
+| CI/CD          | GitHub Actions + GitLab CI |
 
 ## Project Structure
 
@@ -84,12 +84,13 @@ npm run report           # generate and open in browser
 
 ## CI/CD
 
-Tests run automatically on:
-- Push / PR to `main` or `develop`
-- Daily at 06:00 UTC (cron)
-- Manual trigger via GitHub Actions UI (with optional tag filter)
+The project supports two CI/CD platforms simultaneously.
 
-Required GitHub Secrets:
+### GitHub Actions (`.github/workflows/e2e-tests.yml`)
+
+Triggers: push/PR to `main` or `develop`, daily cron at 06:00 UTC, manual trigger with tag filter.
+
+Secrets: `Settings -> Secrets and variables -> Actions`
 
 | Secret | Description |
 |---|---|
@@ -98,7 +99,17 @@ Required GitHub Secrets:
 | `TEST_USER_PASSWORD` | Test user credentials |
 | `LANGFUSE_PUBLIC_KEY` | Langfuse project public key |
 | `LANGFUSE_SECRET_KEY` | Langfuse project secret key |
-| `GEMINI_API_KEY` | Gemini API key for LLM-as-a-Judge |
+| `QASE_TESTOPS_API_TOKEN` | Qase TMS token |
+| `GEMINI_API_KEY` | Gemini API key for LLM Judge |
+
+### GitLab CI (`.gitlab-ci.yml`)
+
+Triggers: push to `main` or `develop`, Merge Request, manual trigger via UI.
+Cron schedule: `Build -> Pipeline schedules -> New schedule`
+
+Secrets: `Settings -> CI/CD -> Variables` (enable Masked for sensitive values)
+
+Same secrets as GitHub Actions above.
 
 ## Observability
 
