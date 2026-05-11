@@ -4,7 +4,7 @@ stages:
 
 aqa-tests:
   stage: test
-  image: mcr.microsoft.com/playwright:v1.52.0-jammy
+  image: mcr.microsoft.com/playwright:latest
   script:
     - npm ci
     - npm run test
@@ -14,10 +14,10 @@ aqa-tests:
       - allure-results/
     expire_in: 10 days
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_BRANCH == "develop"
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
 
 generate-report:
   stage: report
@@ -30,7 +30,7 @@ generate-report:
       - allure-report/
     expire_in: 10 days
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_BRANCH == "develop"
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
