@@ -1,5 +1,25 @@
 # Changelog
 
+## [feature/accessibility-tests] - 2026-05-11
+
+### Added
+
+- `tests/specs/accessibility.spec.ts` - 3 accessibility tests with tag `@a11y`
+  - sign-up page: hard WCAG 2.1 AA check, fails if violations found
+  - login page: hard WCAG 2.1 AA check, fails if violations found
+  - home page: logs violations only, does not fail (known external violation, not in our control)
+- `axe-playwright` package added to devDependencies
+
+### How it works
+
+Axe scans the page DOM and checks against WCAG 2.1 A and AA rules.
+Run accessibility tests only:
+```bash
+npx playwright test --grep @a11y
+```
+
+---
+
 ## [feature/llm-judge] - 2026-05-06
 
 ### Added
