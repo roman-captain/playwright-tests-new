@@ -1,9 +1,10 @@
 import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './base.page';
+import { ResilientLocator } from '../../helpers/resilientLocator';
 
 export class MainPage extends BasePage {
-  // Subscribe
-  readonly subscribeBtn: Locator;
+  // Subscribe — ResilientLocator
+  private resilientSubscribeBtn: ResilientLocator;
   readonly subscribeHeadTitle: Locator;
   readonly fieldWorkEmail: Locator;
   readonly fieldCountry: Locator;
@@ -30,7 +31,11 @@ export class MainPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.subscribeBtn = page.locator('a[href="https://github.com/newsletter"]');
+    this.resilientSubscribeBtn = new ResilientLocator(page, 'Subscribe button', [
+      { type: 'css', value: 'a[href="https://github.com/newsletter"]' }, // primary
+      { type: 'css', value: '.btn-mktg' },                               // fallback 1
+      { type: 'role', value: 'link', name: 'Subscribe' },                 // fallback 2
+    ]);
     this.subscribeHeadTitle = page.locator('h1:has-text("Get our developer newsletter")');
     this.fieldWorkEmail = page.locator('#form-field-emailAddress');
     this.fieldCountry = page.locator('#form-field-country');
@@ -50,6 +55,11 @@ export class MainPage extends BasePage {
     this.serviceTermsButton = page.locator('a[href="/site/terms"]');
     this.supportLink = page.locator('a[href="https://support.github.com/"]');
     this.supportTitle = page.locator('h2[class*="Heading-module__Heading"]');
+  }
+
+  async clickSubscribeBtn() {
+    const btn = await this.resilientSubscribeBtn.find();
+    await btn.click();
   }
 
   async inputFieldWorkEmail(value: string) { await this.fieldWorkEmail.fill(value); }

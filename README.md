@@ -30,9 +30,9 @@ Built to Wiki standard
 | `tests/specs/api_petstore.spec.ts` | API tests (`@api` / `@smoke`) |
 | `tests/specs/accessibility.spec.ts` | Accessibility tests WCAG 2.1 AA (`@a11y`) |
 | `tests/fixtures/langfuseBaseTest.ts` | Combined fixture: Langfuse tracing + page objects |
+| `helpers/resilientLocator.ts` | Self-healing locator with fallback strategies |
 | `helpers/langfuseTestHelper.ts` | Langfuse tracing class |
 | `helpers/langfuseFixture.ts` | Playwright fixture with auto tracing |
-| `helpers/` | Utility functions |
 | `playwright.config.ts` | Playwright configuration |
 | `.env` | Local env vars — not committed |
 | `.env.example` | Template for `.env` |
@@ -110,6 +110,11 @@ Cron schedule: `Build -> Pipeline schedules -> New schedule`
 Secrets: `Settings -> CI/CD -> Variables` (enable Masked for sensitive values)
 
 Same secrets as GitHub Actions above.
+
+## Self-Healing Locators
+
+`ResilientLocator` tries multiple selector strategies before failing. Applied to Sign In, Sign Up, Subscribe buttons.
+If primary breaks after UI change — test recovers via fallback and logs a warning for the team to update the selector.
 
 ## Observability
 
