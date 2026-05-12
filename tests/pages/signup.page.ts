@@ -1,8 +1,8 @@
 import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './base.page';
+import { ResilientLocator } from '../../helpers/resilientLocator';
 
 export class SignupPage extends BasePage {
-  readonly signUpButton: Locator;
   readonly signUpHeader: Locator;
   readonly emailField: Locator;
   readonly passwordField: Locator;
@@ -11,10 +11,18 @@ export class SignupPage extends BasePage {
   readonly checkboxEmailLink: Locator;
   readonly createAccountButton: Locator;
 
+  // ResilientLocator
+  private resilientSignUpButton: ResilientLocator;
+
   constructor(page: Page) {
     super(page);
-    this.signUpButton = page.locator('.HeaderMenu-link--sign-up');
     this.signUpHeader = page.locator('h1.signups-rebrand__container-h1');
+
+    this.resilientSignUpButton = new ResilientLocator(page, 'Sign Up button', [
+      { type: 'css', value: 'a[href*="/signup"]' },            // primary
+      { type: 'css', value: '.HeaderMenu-link--sign-up' },     // fallback 1
+      { type: 'role', value: 'link', name: 'Sign up' },         // fallback 2
+    ]);
     this.emailField = page.locator('#email');
     this.passwordField = page.locator('#password');
     this.usernameField = page.locator('#login');
@@ -23,7 +31,10 @@ export class SignupPage extends BasePage {
     this.createAccountButton = page.locator('button[data-target="signup-form.SignupButton"]');
   }
 
-  async clickOnSignUpButton() { await this.signUpButton.click(); }
+  async clickOnSignUpButton() {
+    const btn = await this.resilientSignUpButton.find();
+    await btn.click();
+  }
   async inputEmailField(value: string) { await this.emailField.fill(value); }
   async inputPasswordField(value: string) { await this.passwordField.fill(value); }
   async inputUsernameField(value: string) { await this.usernameField.fill(value); }

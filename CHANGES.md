@@ -1,5 +1,38 @@
 # Changelog
 
+## [feature/self-healing-locators] - 2026-05-12
+
+### Added
+
+- `helpers/resilientLocator.ts` - ResilientLocator class with multi-strategy fallback
+  - tries each strategy in order until element is found
+  - logs warning when primary selector fails and fallback is used
+  - throws only when all strategies are exhausted
+
+### Changed
+
+- `tests/pages/login.page.ts` - signInButton converted to ResilientLocator (3 strategies)
+- `tests/pages/signup.page.ts` - signUpButton converted to ResilientLocator (3 strategies)
+- `tests/pages/main.page.ts` - subscribeBtn converted to ResilientLocator, added `clickSubscribeBtn()` method
+- `tests/specs/github.spec.ts` - updated to use `mainPage.clickSubscribeBtn()`
+
+### How it works
+
+```typescript
+new ResilientLocator(page, 'Sign In button', [
+  { type: 'css',  value: 'a[href="/login"]' },          // primary
+  { type: 'css',  value: '.HeaderMenu-link--sign-in' }, // fallback 1
+  { type: 'role', value: 'link', name: 'Sign in' },     // fallback 2
+])
+```
+
+When primary fails, CI logs:
+```
+⚠️ [ResilientLocator] "Sign In button" - primary broken! Recovered via fallback #1. Please update the selector.
+```
+
+---
+
 ## [feature/accessibility-tests] - 2026-05-11
 
 ### Added

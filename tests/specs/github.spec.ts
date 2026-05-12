@@ -64,7 +64,7 @@ test.describe('Navigation on GitHub.com', () => {
     qase.fields({ severity: 'normal', priority: 'medium' });
     qase.tags('ui', 'regression');
 
-    await mainPage.subscribeBtn.click();
+    await mainPage.clickSubscribeBtn();
 
     await expect(mainPage.subscribeHeadTitle).toHaveText('Get our developer newsletter');
     await mainPage.inputFieldWorkEmail(testData.subscribe.email);
