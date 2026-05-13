@@ -6,14 +6,16 @@ Built to Wiki standard
 
 ## Tech Stack
 
-| Component      | Technology              |
-|----------------|-------------------------|
-| Language       | TypeScript              |
-| Test Framework | Playwright              |
-| Test Runner    | Playwright Test         |
-| Reporting      | Allure Report           |
-| Observability  | Langfuse                |
-| CI/CD          | GitHub Actions + GitLab CI |
+| Component        | Technology                        |
+|------------------|-----------------------------------|
+| Language         | TypeScript + Python               |
+| Test Framework   | Playwright                        |
+| Test Runner      | Playwright Test                   |
+| Reporting        | Allure Report                     |
+| Observability    | Langfuse                          |
+| AI Analysis      | Groq (llama-3.1-8b + llama-3.3-70b) |
+| LLM Evaluation   | DeepEval                          |
+| CI/CD            | GitHub Actions + GitLab CI        |
 
 ## Project Structure
 
@@ -36,6 +38,9 @@ Built to Wiki standard
 | `playwright.config.ts` | Playwright configuration |
 | `.env` | Local env vars — not committed |
 | `.env.example` | Template for `.env` |
+| `ai-pipeline/parser.py` | Parses test-results.json → failures_dataset.json |
+| `ai-pipeline/run_pipeline.py` | Bot + Judge analysis → Langfuse scores |
+| `ai-pipeline/requirements.txt` | Python dependencies |
 
 ## Setup
 
@@ -62,7 +67,7 @@ HEADLESS=false
 LANGFUSE_PUBLIC_KEY=pk-lf-...
 LANGFUSE_SECRET_KEY=sk-lf-...
 LANGFUSE_HOST=https://cloud.langfuse.com
-GEMINI_API_KEY=AIza...
+GROQ_API_KEY=gsk_...
 ```
 
 ## Running Tests
@@ -99,8 +104,9 @@ Secrets: `Settings -> Secrets and variables -> Actions`
 | `TEST_USER_PASSWORD` | Test user credentials |
 | `LANGFUSE_PUBLIC_KEY` | Langfuse project public key |
 | `LANGFUSE_SECRET_KEY` | Langfuse project secret key |
+| `LANGFUSE_HOST` | Langfuse host URL |
+| `GROQ_API_KEY` | Groq API key (AI pipeline — bot + judge) |
 | `QASE_TESTOPS_API_TOKEN` | Qase TMS token |
-| `GEMINI_API_KEY` | Gemini API key for LLM Judge |
 
 ### GitLab CI (`.gitlab-ci.yml`)
 
@@ -121,8 +127,54 @@ If primary breaks after UI change — test recovers via fallback and logs a warn
 Tests are traced via Langfuse. Each test run creates a trace with spans and scores.
 
 Scores per test:
-- `test-success` - 1 if passed, 0 if failed
-- `test-performance` - score based on duration (1.0 under 5s, 0.8 for 5-10s, 0.6 for 10-30s, 0.4 for 30-60s, 0.2 over 60s)
-- `llm-bug-detector` - AI score for failed tests: 1 = real product bug, 0 = test issue (powered by Gemini)
+- `test-success` — 1 if passed, 0 if failed
+- `test-performance` — score based on duration (1.0 under 5s → 0.2 over 60s)
+
+Failed tests are analyzed by the AI pipeline (see below) — scores `hallucination`, `relevancy`, `audit-passed` are written to the same Langfuse project.
 
 Dashboard: https://cloud.langfuse.com
+
+## AI Failure Analysis Pipeline
+
+After a test run, failed tests can be automatically analyzed by an AI pipeline located in `ai-pipeline/`.
+
+### How it works
+
+```
+npx playwright test → test-results.json
+        ↓
+parser.py extracts failed tests → failures_dataset.json
+        ↓
+Bot (llama-3.1-8b-instant) analyzes each failure → Langfuse trace
+        ↓
+Judge (llama-3.3-70b-versatile) evaluates bot quality via DeepEval
+        ↓
+Scores written to Langfuse: hallucination / relevancy / audit-passed
+```
+
+### Bot output per failure
+
+- **FAILURE TYPE** — `locator_issue` / `timing_issue` / `environment_issue` / `real_bug` / `test_data_issue`
+- **ROOT CAUSE** — brief explanation
+- **IS REAL BUG** — yes / no
+- **CONFIDENCE** — low / medium / high
+- **RECOMMENDED ACTION** — next step for QA engineer
+
+### Running locally
+
+```bash
+# activate Python venv with dependencies
+source path/to/venv/bin/activate
+
+# parse failures from last test run
+python ai-pipeline/parser.py test-results.json
+
+# run AI analysis
+python ai-pipeline/run_pipeline.py
+```
+
+### CI/CD
+
+Workflow: `.github/workflows/ai-analysis.yml` — manual trigger only (`workflow_dispatch`).
+
+All required secrets are listed in the CI/CD section above.

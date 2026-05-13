@@ -10,6 +10,7 @@ export default defineConfig({
 
   reporter: [
     ['list'],
+    ['json', { outputFile: 'test-results.json' }],
     ['allure-playwright', {
       outputFolder: 'allure-results',
       suiteTitle: true,

@@ -1,5 +1,27 @@
 # Changelog
 
+## [feature/ai-failure-analysis] - 2026-05-13
+
+### Added
+
+- `ai-pipeline/parser.py` - parses Playwright `test-results.json`, extracts failed tests into `failures_dataset.json`
+  - strips ANSI color codes from error messages
+  - outputs structured JSON: id, test_name, error, context
+- `ai-pipeline/run_pipeline.py` - AI analysis pipeline
+  - Bot: `llama-3.1-8b-instant` (Groq) analyzes each failure, logs trace to Langfuse
+  - Judge: `llama-3.3-70b-versatile` (Groq) evaluates bot quality via DeepEval
+  - Scores written to Langfuse: `hallucination`, `relevancy`, `audit-passed`
+- `ai-pipeline/requirements.txt` - Python dependencies: groq, deepeval, langfuse, python-dotenv
+- `.github/workflows/ai-analysis.yml` - manual workflow (`workflow_dispatch`)
+  - runs Playwright tests, parses failures, runs AI analysis in one job
+
+### Changed
+
+- `playwright.config.ts` - added JSON reporter (`test-results.json`)
+- `README.md` - updated Tech Stack, Project Structure, Observability, added AI Pipeline section
+
+---
+
 ## [feature/self-healing-locators] - 2026-05-12
 
 ### Added

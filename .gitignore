@@ -8,3 +8,6 @@ playwright-report/
 test-results/
 reports/
 .DS_Store
+test-results.json
+ai-pipeline/failures_dataset.json
+ai-pipeline/__pycache__/
