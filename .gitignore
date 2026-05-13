@@ -11,3 +11,4 @@ reports/
 test-results.json
 ai-pipeline/failures_dataset.json
 ai-pipeline/__pycache__/
+ai-pipeline/.deepeval/
