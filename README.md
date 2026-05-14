@@ -16,6 +16,8 @@ Built to Wiki standard
 | AI Analysis      | Groq (llama-3.1-8b + llama-3.3-70b) |
 | LLM Evaluation   | DeepEval                          |
 | CI/CD            | GitHub Actions + GitLab CI        |
+| Visual Regression | Percy                            |
+| Notifications    | Slack (Incoming Webhooks)         |
 
 ## Project Structure
 
@@ -32,6 +34,7 @@ Built to Wiki standard
 | `tests/specs/api_petstore.spec.ts` | API tests (`@api` / `@smoke`) |
 | `tests/specs/accessibility.spec.ts` | Accessibility tests WCAG 2.1 AA (`@a11y`) |
 | `tests/specs/contract.spec.ts` | API contract tests - response structure validation (`@contract`) |
+| `tests/specs/visual.spec.ts` | Visual regression tests via Percy (`@visual`) |
 | `tests/fixtures/langfuseBaseTest.ts` | Combined fixture: Langfuse tracing + page objects |
 | `helpers/resilientLocator.ts` | Self-healing locator with fallback strategies |
 | `helpers/langfuseTestHelper.ts` | Langfuse tracing class |
@@ -80,6 +83,7 @@ npm run test:regression  # @regression only
 npm run test:api         # @api only
 npm run test:a11y        # @a11y only
 npm run test:contract    # @contract only
+npm run test:visual      # @visual only (Percy visual regression)
 ```
 
 ## Allure Report
@@ -110,6 +114,7 @@ Secrets: `Settings -> Secrets and variables -> Actions`
 | `GROQ_API_KEY` | Groq API key (AI pipeline - bot + judge) |
 | `QASE_TESTOPS_API_TOKEN` | Qase TMS token |
 | `SLACK_WEBHOOK_URL` | Slack Incoming Webhook URL for failure notifications |
+| `PERCY_TOKEN` | Percy project token for visual regression snapshots |
 
 ### GitLab CI (`.gitlab-ci.yml`)
 

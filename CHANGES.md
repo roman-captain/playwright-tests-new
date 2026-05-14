@@ -1,5 +1,25 @@
 # Changelog
 
+## [feature/visual-regression-percy] - 2026-05-14
+
+### Added
+
+- `tests/specs/visual.spec.ts` - 3 visual regression tests with tag `@visual` via Percy
+  - GitHub Login page snapshot
+  - GitHub Pricing page snapshot
+  - GitHub Homepage snapshot
+- `package.json` - added `test:visual` script (`percy exec -- playwright test --grep @visual`)
+- `@percy/cli` and `@percy/playwright` added to devDependencies
+- `PERCY_TOKEN` added to GitHub Secrets
+
+### How it works
+
+Percy captures fullPage screenshots and uploads them to the Percy cloud. On first run baseline is created. On every subsequent run Percy compares new screenshots with baseline and shows visual diff in the dashboard. Runs automatically as part of the daily cron schedule.
+
+Dashboard: percy.io
+
+---
+
 ## [feature/slack-notifications] - 2026-05-14
 
 ### Added
