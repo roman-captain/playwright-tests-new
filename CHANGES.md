@@ -1,5 +1,16 @@
 # Changelog
 
+## [feature/slack-notifications] - 2026-05-14
+
+### Added
+
+- `.github/workflows/e2e-tests.yml` - Slack notification on CI failure via `slackapi/slack-github-action@v1.26.0`
+  - sends message to `#aqa-ci-alerts` channel when tests fail
+  - message includes branch name and link to failed pipeline run
+- `SLACK_WEBHOOK_URL` added to GitHub Secrets
+
+---
+
 ## [fix/contract-test-isolation] - 2026-05-14
 
 ### Fixed

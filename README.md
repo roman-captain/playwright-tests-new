@@ -109,6 +109,7 @@ Secrets: `Settings -> Secrets and variables -> Actions`
 | `LANGFUSE_HOST` | Langfuse host URL |
 | `GROQ_API_KEY` | Groq API key (AI pipeline - bot + judge) |
 | `QASE_TESTOPS_API_TOKEN` | Qase TMS token |
+| `SLACK_WEBHOOK_URL` | Slack Incoming Webhook URL for failure notifications |
 
 ### GitLab CI (`.gitlab-ci.yml`)
 
