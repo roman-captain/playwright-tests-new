@@ -1,6 +1,6 @@
 # playwright-tests-new
 
-Playwright E2E test suite — AQA internship practice project.
+Playwright E2E test suite - AQA internship practice project.
 
 Built to Wiki standard
 
@@ -31,12 +31,13 @@ Built to Wiki standard
 | `tests/specs/github.spec.ts` | UI E2E tests (`@smoke` / `@regression`) |
 | `tests/specs/api_petstore.spec.ts` | API tests (`@api` / `@smoke`) |
 | `tests/specs/accessibility.spec.ts` | Accessibility tests WCAG 2.1 AA (`@a11y`) |
+| `tests/specs/contract.spec.ts` | API contract tests - response structure validation (`@contract`) |
 | `tests/fixtures/langfuseBaseTest.ts` | Combined fixture: Langfuse tracing + page objects |
 | `helpers/resilientLocator.ts` | Self-healing locator with fallback strategies |
 | `helpers/langfuseTestHelper.ts` | Langfuse tracing class |
 | `helpers/langfuseFixture.ts` | Playwright fixture with auto tracing |
 | `playwright.config.ts` | Playwright configuration |
-| `.env` | Local env vars — not committed |
+| `.env` | Local env vars - not committed |
 | `.env.example` | Template for `.env` |
 | `ai-pipeline/parser.py` | Parses test-results.json → failures_dataset.json |
 | `ai-pipeline/run_pipeline.py` | Bot + Judge analysis → Langfuse scores |
@@ -78,6 +79,7 @@ npm run test:smoke       # @smoke only
 npm run test:regression  # @regression only
 npm run test:api         # @api only
 npm run test:a11y        # @a11y only
+npm run test:contract    # @contract only
 ```
 
 ## Allure Report
@@ -105,7 +107,7 @@ Secrets: `Settings -> Secrets and variables -> Actions`
 | `LANGFUSE_PUBLIC_KEY` | Langfuse project public key |
 | `LANGFUSE_SECRET_KEY` | Langfuse project secret key |
 | `LANGFUSE_HOST` | Langfuse host URL |
-| `GROQ_API_KEY` | Groq API key (AI pipeline — bot + judge) |
+| `GROQ_API_KEY` | Groq API key (AI pipeline - bot + judge) |
 | `QASE_TESTOPS_API_TOKEN` | Qase TMS token |
 
 ### GitLab CI (`.gitlab-ci.yml`)
@@ -120,17 +122,17 @@ Same secrets as GitHub Actions above.
 ## Self-Healing Locators
 
 `ResilientLocator` tries multiple selector strategies before failing. Applied to Sign In, Sign Up, Subscribe buttons.
-If primary breaks after UI change — test recovers via fallback and logs a warning for the team to update the selector.
+If primary breaks after UI change - test recovers via fallback and logs a warning for the team to update the selector.
 
 ## Observability
 
 Tests are traced via Langfuse. Each test run creates a trace with spans and scores.
 
 Scores per test:
-- `test-success` — 1 if passed, 0 if failed
-- `test-performance` — score based on duration (1.0 under 5s → 0.2 over 60s)
+- `test-success` - 1 if passed, 0 if failed
+- `test-performance` - score based on duration (1.0 under 5s → 0.2 over 60s)
 
-Failed tests are analyzed by the AI pipeline (see below) — scores `hallucination`, `relevancy`, `audit-passed` are written to the same Langfuse project.
+Failed tests are analyzed by the AI pipeline (see below) - scores `hallucination`, `relevancy`, `audit-passed` are written to the same Langfuse project.
 
 Dashboard: https://cloud.langfuse.com
 
@@ -154,11 +156,11 @@ Scores written to Langfuse: hallucination / relevancy / audit-passed
 
 ### Bot output per failure
 
-- **FAILURE TYPE** — `locator_issue` / `timing_issue` / `environment_issue` / `real_bug` / `test_data_issue`
-- **ROOT CAUSE** — brief explanation
-- **IS REAL BUG** — yes / no
-- **CONFIDENCE** — low / medium / high
-- **RECOMMENDED ACTION** — next step for QA engineer
+- **FAILURE TYPE** - `locator_issue` / `timing_issue` / `environment_issue` / `real_bug` / `test_data_issue`
+- **ROOT CAUSE** - brief explanation
+- **IS REAL BUG** - yes / no
+- **CONFIDENCE** - low / medium / high
+- **RECOMMENDED ACTION** - next step for QA engineer
 
 ### Running locally
 
@@ -175,6 +177,6 @@ python ai-pipeline/run_pipeline.py
 
 ### CI/CD
 
-Workflow: `.github/workflows/ai-analysis.yml` — manual trigger only (`workflow_dispatch`).
+Workflow: `.github/workflows/ai-analysis.yml` - manual trigger only (`workflow_dispatch`).
 
 All required secrets are listed in the CI/CD section above.

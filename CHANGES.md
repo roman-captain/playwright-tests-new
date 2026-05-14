@@ -1,5 +1,37 @@
 # Changelog
 
+## [feature/contract-tests] - 2026-05-14
+
+### Added
+
+- `tests/specs/contract.spec.ts` - 5 contract tests with tag `@contract`
+  - `GET /pet/{id}` - validates Pet response structure (id, name, status, photoUrls, optional category/tags)
+  - `POST /pet` - validates created Pet response matches contract
+  - `GET /pet/findByStatus` - validates each item in response array matches Pet contract
+  - `GET /store/inventory` - validates inventory object contains only string keys and numeric values
+  - `GET /pet/999999999` - validates error response structure (code, type, message)
+- `package.json` - added `test:contract` script for running contract tests locally
+
+### How it works
+
+TypeScript interfaces define the expected API response structure. A shared `assertPetContract()` function validates field types and allowed enum values against the Petstore Swagger schema. If the backend renames a field or changes a type - the test fails before the frontend breaks.
+
+```typescript
+function assertPetContract(pet: PetContract) {
+  expect(typeof pet.id, 'id must be a number').toBe('number');
+  expect(typeof pet.name, 'name must be a string').toBe('string');
+  expect(VALID_STATUSES, 'status must be one of the allowed values').toContain(pet.status);
+  expect(Array.isArray(pet.photoUrls), 'photoUrls must be an array').toBe(true);
+}
+```
+
+Run contract tests only:
+```bash
+npm run test:contract
+```
+
+---
+
 ## [feature/ai-failure-analysis] - 2026-05-13
 
 ### Added
@@ -84,7 +116,7 @@ npx playwright test --grep @a11y
   - sends failed test name + error to Gemini API
   - writes score `llm-bug-detector` (1 = real bug, 0 = test issue) to Langfuse trace
   - uses model `gemini-2.5-flash-lite` (free tier: 15 RPM, 1000 req/day)
-  - silent fail — LLM error never breaks test run
+  - silent fail - LLM error never breaks test run
 
 ### Changed
 
