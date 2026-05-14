@@ -52,6 +52,21 @@ function assertPetContract(pet: PetContract) {
 
 test.describe('Petstore API - Contract Tests', () => {
 
+  test.beforeAll(async ({ request }) => {
+    await request.post(`${env.apiUrl}/pet`, {
+      data: {
+        id: testData.api.petId,
+        name: testData.api.petName,
+        status: testData.api.petStatus,
+        photoUrls: [],
+      },
+    });
+  });
+
+  test.afterAll(async ({ request }) => {
+    await request.delete(`${env.apiUrl}/pet/${testData.api.petId}`);
+  });
+
   test('GET /pet/{id} - response structure matches Pet contract @contract', async ({ request }) => {
     const response = await request.get(`${env.apiUrl}/pet/${testData.api.petId}`);
 

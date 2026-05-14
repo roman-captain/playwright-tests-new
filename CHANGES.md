@@ -1,5 +1,13 @@
 # Changelog
 
+## [fix/contract-test-isolation] - 2026-05-14
+
+### Fixed
+
+- `tests/specs/contract.spec.ts` - added `beforeAll` to create pet before tests and `afterAll` to delete it after. Fixes 404 on `GET /pet/{id}` when running alongside other suites that delete the same pet id.
+
+---
+
 ## [feature/contract-tests] - 2026-05-14
 
 ### Added
