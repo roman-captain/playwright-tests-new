@@ -45,7 +45,7 @@ export class MainPage extends BasePage {
 
     this.fieldSearch = page.locator('button.header-search-button');
     this.fieldRequest = page.locator('#query-builder-test');
-    this.firstArtLink = page.locator('[data-testid="results-list"] a').first();
+    this.firstArtLink = page.locator('.search-title a').first();
 
     this.pricingBtn = page.getByRole('link', { name: 'Pricing', exact: true }).first();
     this.pricingHeader = page.locator('h1.h2-mktg');

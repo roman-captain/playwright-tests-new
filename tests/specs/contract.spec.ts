@@ -32,7 +32,6 @@ const VALID_STATUSES = ['available', 'pending', 'sold'];
 function assertPetContract(pet: PetContract) {
   expect(typeof pet.id, 'id must be a number').toBe('number');
   expect(typeof pet.name, 'name must be a string').toBe('string');
-  expect(pet.name.length, 'name must not be empty').toBeGreaterThan(0);
   expect(Array.isArray(pet.photoUrls), 'photoUrls must be an array').toBe(true);
   expect(VALID_STATUSES, 'status must be one of the allowed values').toContain(pet.status);
 

@@ -17,7 +17,7 @@ test.describe('Visual Regression - GitHub Pages', () => {
 
   test('homepage visual snapshot @visual', async ({ page }) => {
     await page.goto('https://github.com');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
     await percySnapshot(page, 'GitHub - Homepage');
   });
 
