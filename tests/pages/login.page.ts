@@ -19,8 +19,8 @@ export class LoginPage extends BasePage {
     this.signInPageTitle = page.locator('h1:has-text("Sign in to GitHub")');
 
     this.resilientSignInButton = new ResilientLocator(page, 'Sign In button', [
-      { type: 'css', value: 'a[href="/login"]' },              // primary
-      { type: 'css', value: '.HeaderMenu-link--sign-in' },     // fallback 1
+      { type: 'css', value: '.HeaderMenu-link--sign-in' },     // primary
+      { type: 'css', value: 'a[href="/login"]' },              // fallback 1
       { type: 'role', value: 'link', name: 'Sign in' },         // fallback 2
     ]);
   }

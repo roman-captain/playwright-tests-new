@@ -41,7 +41,7 @@ export class MainPage extends BasePage {
     this.fieldCountry = page.locator('#form-field-country');
     this.checkboxPrivacy = page.locator('[viewBox="0 0 100 100"]');
     this.successSubcribeTitle = page.locator('#hero-section-brand-heading');
-    this.finalSubscribeBtn = page.locator('.Primer_Brand__Button-module__Button__text___Z3ocU');
+    this.finalSubscribeBtn = page.getByRole('button', { name: 'Subscribe' });
 
     this.fieldSearch = page.locator('button.header-search-button');
     this.fieldRequest = page.locator('#query-builder-test');

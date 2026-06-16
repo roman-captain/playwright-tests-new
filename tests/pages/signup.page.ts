@@ -27,7 +27,7 @@ export class SignupPage extends BasePage {
     this.passwordField = page.locator('#password');
     this.usernameField = page.locator('#login');
     this.countryButton = page.locator('#country-dropdown-panel-button');
-    this.checkboxEmailLink = page.locator('.FormControl-checkbox');
+    this.checkboxEmailLink = page.locator('[data-target="signups-marketing-consent-fields.marketingConsentCheckbox"]');
     this.createAccountButton = page.locator('button[data-target="signup-form.SignupButton"]');
   }
 
