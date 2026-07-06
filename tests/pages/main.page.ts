@@ -3,7 +3,7 @@ import { BasePage } from './base.page';
 import { ResilientLocator } from '../../helpers/resilientLocator';
 
 export class MainPage extends BasePage {
-  // Subscribe — ResilientLocator
+  // Subscribe – ResilientLocator
   private resilientSubscribeBtn: ResilientLocator;
   readonly subscribeHeadTitle: Locator;
   readonly fieldWorkEmail: Locator;
@@ -32,8 +32,8 @@ export class MainPage extends BasePage {
     super(page);
 
     this.resilientSubscribeBtn = new ResilientLocator(page, 'Subscribe button', [
-      { type: 'css', value: 'a[href="https://github.com/newsletter"]' }, // primary
-      { type: 'css', value: '.btn-mktg' },                               // fallback 1
+      { type: 'css', value: 'a[href*="newsletter"]' },                    // primary (matches /newsletter and absolute URL)
+      { type: 'css', value: 'a[class*="Newsletter-module__cta"]' },       // fallback 1 (Primer Brand CTA, hash-stable prefix)
       { type: 'role', value: 'link', name: 'Subscribe' },                 // fallback 2
     ]);
     this.subscribeHeadTitle = page.locator('h1:has-text("Get our developer newsletter")');

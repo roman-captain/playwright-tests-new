@@ -1,5 +1,25 @@
 # Changelog
 
+## [fix/github-redesign-locators] - 2026-07-06
+
+### Fixed
+
+- `tests/pages/signup.page.ts` - replaced dead `button[data-target="signup-form.SignupButton"]` with `getByRole('button', { name: 'Create account' })` – GitHub removed the data-target attribute in the signup redesign
+- `tests/pages/main.page.ts` - Subscribe button: primary selector updated to `a[href*="newsletter"]` (href became relative), fallback 1 updated from removed `.btn-mktg` to Primer Brand class prefix `a[class*="Newsletter-module__cta"]`
+- `tests/fixtures/testData.ts` - signUp data generated per run via `Date.now()` – GitHub now live-validates email/username availability and password leaks, static values kept "Create account" disabled (`data-disable-invalid`)
+
+---
+
+## [fix/test-stability] - 2026-05-14
+
+### Fixed
+
+- `tests/specs/visual.spec.ts` - replaced `networkidle` with `load` on homepage – `networkidle` never resolves on GitHub homepage due to continuous background requests
+- `tests/specs/contract.spec.ts` - removed `name.length > 0` check – Petstore public API has pets with empty name, this is valid data not a contract violation
+- `tests/pages/main.page.ts` - updated `firstArtLink` locator from `[data-testid="results-list"] a` to `.search-title a` – GitHub changed search results UI
+
+---
+
 ## [feature/visual-regression-percy] - 2026-05-14
 
 ### Added

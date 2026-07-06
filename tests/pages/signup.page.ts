@@ -28,7 +28,8 @@ export class SignupPage extends BasePage {
     this.usernameField = page.locator('#login');
     this.countryButton = page.locator('#country-dropdown-panel-button');
     this.checkboxEmailLink = page.locator('[data-target="signups-marketing-consent-fields.marketingConsentCheckbox"]');
-    this.createAccountButton = page.locator('button[data-target="signup-form.SignupButton"]');
+    // GitHub redesign (Jul 2026): data-target="signup-form.SignupButton" removed from DOM
+    this.createAccountButton = page.getByRole('button', { name: 'Create account' });
   }
 
   async clickOnSignUpButton() {
