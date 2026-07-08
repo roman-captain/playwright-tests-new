@@ -119,7 +119,10 @@ test.describe('Petstore API - Contract Tests', () => {
   });
 
   test('GET /pet/{id} unknown id - error response matches contract @contract', async ({ request }) => {
-    const response = await request.get(`${env.apiUrl}/pet/999999999`);
+    const unknownId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
+    await request.delete(`${env.apiUrl}/pet/${unknownId}`);
+
+    const response = await request.get(`${env.apiUrl}/pet/${unknownId}`);
 
     expect(response.status()).toBe(404);
 
