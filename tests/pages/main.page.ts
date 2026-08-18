@@ -43,8 +43,8 @@ export class MainPage extends BasePage {
     this.successSubcribeTitle = page.locator('#hero-section-brand-heading');
     this.finalSubscribeBtn = page.getByRole('button', { name: 'Subscribe' });
 
-    this.fieldSearch = page.locator('button.header-search-button');
-    this.fieldRequest = page.locator('#query-builder-test');
+    this.fieldSearch = page.locator('button[aria-label^="Search or jump to"]');
+    this.fieldRequest = page.locator('input[aria-label="Search or jump to"]');
     this.firstArtLink = page.locator('.search-title a').first();
 
     this.pricingBtn = page.getByRole('link', { name: 'Pricing', exact: true }).first();
