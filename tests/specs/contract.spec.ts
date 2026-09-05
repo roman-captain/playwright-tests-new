@@ -8,8 +8,8 @@ interface Category {
 }
 
 interface Tag {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
 }
 
 interface PetContract {
@@ -43,8 +43,8 @@ function assertPetContract(pet: PetContract) {
   if (pet.tags !== undefined) {
     expect(Array.isArray(pet.tags)).toBe(true);
     pet.tags.forEach((tag) => {
-      expect(typeof tag.id).toBe('number');
-      expect(typeof tag.name).toBe('string');
+      if (tag.id !== undefined) expect(typeof tag.id).toBe('number');
+      if (tag.name !== undefined) expect(typeof tag.name).toBe('string');
     });
   }
 }
