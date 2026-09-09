@@ -30,7 +30,7 @@ export const testData = {
   },
   support: {
     termsUrlPattern: /github-terms-of-service/,
-    supportTitle: 'Welcome to GitHub Support',
+    supportTitle: 'Discover more resources',
   },
   api: {
     petId: 98765,
