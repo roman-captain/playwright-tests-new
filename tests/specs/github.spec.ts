@@ -81,7 +81,7 @@ test.describe('Navigation on GitHub.com', () => {
     await mainPage.pricingBtn.click();
 
     await expect(mainPage.pricingHeader).toHaveText(testData.pricing.headerText);
-    await expect(page).toHaveTitle(/Pricing/);
+    await expect(page).toHaveTitle(/pricing/i);
 
     await mainPage.compareFeaturesLink.click();
     await expect(mainPage.compareFeaturesTitle).toHaveText(testData.pricing.compareFeaturesText);

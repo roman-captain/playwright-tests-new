@@ -92,15 +92,17 @@ test.describe('Petstore API - Contract Tests', () => {
   });
 
   test('GET /pet/findByStatus - each item matches Pet contract @contract', async ({ request }) => {
-    const response = await request.get(`${env.apiUrl}/pet/findByStatus?status=available`);
+    // The public Petstore is shared: other users' records can miss required
+    // fields, so the contract is checked on the pet this suite created.
+    const response = await request.get(`${env.apiUrl}/pet/findByStatus?status=${testData.api.petStatus}`);
 
     expect(response.status()).toBe(200);
 
     const body: PetContract[] = await response.json();
     expect(Array.isArray(body), 'response must be an array').toBe(true);
-    expect(body.length, 'array must not be empty').toBeGreaterThan(0);
-
-    body.slice(0, 5).forEach((pet) => assertPetContract(pet));
+    const ownPet = body.find((pet) => pet.id === testData.api.petId);
+    expect(ownPet, 'the pet created in beforeAll must be listed').toBeDefined();
+    assertPetContract(ownPet!);
   });
 
   test('GET /store/inventory - response is object with numeric values @contract', async ({ request }) => {
