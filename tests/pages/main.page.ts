@@ -20,8 +20,8 @@ export class MainPage extends BasePage {
   // Pricing
   readonly pricingBtn: Locator;
   readonly pricingHeader: Locator;
-  readonly compareFeaturesLink: Locator;
-  readonly compareFeaturesTitle: Locator;
+  readonly comparePlansLink: Locator;
+  readonly comparePlansTable: Locator;
 
   // Support
   readonly serviceTermsButton: Locator;
@@ -48,9 +48,9 @@ export class MainPage extends BasePage {
     this.firstArtLink = page.locator('.search-title a').first();
 
     this.pricingBtn = page.getByRole('link', { name: 'Pricing', exact: true }).first();
-    this.pricingHeader = page.locator('h1.h2-mktg');
-    this.compareFeaturesLink = page.locator('a[href="#compare-features"]');
-    this.compareFeaturesTitle = page.locator('h1.h1');
+    this.pricingHeader = page.getByRole('heading', { level: 1 });
+    this.comparePlansLink = page.getByRole('link', { name: 'Compare plans' });
+    this.comparePlansTable = page.getByRole('table', { name: 'Compare plans' });
 
     this.serviceTermsButton = page.locator('a[href="/site/terms"]');
     this.supportLink = page.locator('a[href="https://support.github.com/"]');

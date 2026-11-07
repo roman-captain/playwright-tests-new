@@ -25,8 +25,7 @@ export const testData = {
     query: 'art',
   },
   pricing: {
-    headerText: 'Try GitHub, the complete developer platform',
-    compareFeaturesText: 'Compare features',
+    headerText: 'Try the Copilot-powered platform',
   },
   support: {
     termsUrlPattern: /github-terms-of-service/,

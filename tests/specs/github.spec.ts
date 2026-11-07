@@ -83,8 +83,9 @@ test.describe('Navigation on GitHub.com', () => {
     await expect(mainPage.pricingHeader).toHaveText(testData.pricing.headerText);
     await expect(page).toHaveTitle(/pricing/i);
 
-    await mainPage.compareFeaturesLink.click();
-    await expect(mainPage.compareFeaturesTitle).toHaveText(testData.pricing.compareFeaturesText);
+    await mainPage.comparePlansLink.click();
+    await expect(page).toHaveURL(/#compare-plans/);
+    await expect(mainPage.comparePlansTable).toBeVisible();
   });
 
   // Route via the home page footer instead of the signup page: signup sits
